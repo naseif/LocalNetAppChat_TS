@@ -9,7 +9,7 @@
   },
   "keywords": [],
   "author": "naseif",
-  "license": "ISC",
+  "license": "MIT",
   "devDependencies": {
     "@babel/preset-env": "^7.20.2",
     "@babel/preset-typescript": "^7.18.6",
