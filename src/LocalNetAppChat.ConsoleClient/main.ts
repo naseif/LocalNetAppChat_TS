@@ -1,7 +1,7 @@
 import { ArgumentParser } from "argparse";
 import fetch from "node-fetch";
 import { hostname } from "os";
-import { HostingUrlGenerator } from "../LocalNetAppChat.Domain/HoostingUrlGenerator";
+import { HostingUrlGenerator } from "../LocalNetAppChat.Domain/HostingUrlGenerator";
 import crypto from "crypto";
 import { Message } from "../LocalNetAppChat.Domain/IMessage";
 
@@ -11,17 +11,17 @@ const parser = new ArgumentParser({
 });
 
 parser.add_argument("-m", "--message", {
-  help: "IP or DNS to listen on",
+  help: "Message mode",
   action: "store_true",
 });
 
 parser.add_argument("-l", "--listener", {
-  help: "The port to listen on",
+  help: "Listener mode",
   action: "store_true",
 });
 
 parser.add_argument("-s", "--server", {
-  help: "The port to listen on",
+  help: "the server to connect to",
 });
 
 parser.add_argument("-p", "--port", {
@@ -29,7 +29,7 @@ parser.add_argument("-p", "--port", {
 });
 
 parser.add_argument("--https", {
-  help: "The Release Group to add to the filename",
+  help: "Whether it is a http or https server",
   action: "store_true",
 });
 
@@ -63,12 +63,12 @@ let hostingUrl = HostingUrlGenerator.GenerateUrl(
         "Message"
       );
 
-      const req = await fetch(`${hostingUrl}/send`, {
+      const req = await fetch(`${hostingUrl}/lnac/v1/send`, {
         method: "post",
         body: JSON.stringify(userMessage),
       });
 
-      console.log(await req.json());
+      console.log(req);
       return;
     }
 
