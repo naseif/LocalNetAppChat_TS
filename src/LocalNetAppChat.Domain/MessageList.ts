@@ -1,4 +1,4 @@
-import { IMessage, Message } from "./IMessage";
+import { Message } from "./IMessage";
 
 export class MessageList {
   private readonly _messages: Message[] = [];
@@ -20,7 +20,8 @@ export class MessageList {
       let lastCurrentIndex = this._messages.length - 1;
 
       for (
-        let i = lastSubmittedIndex ?? 0 + 1;
+        // @ts-ignore
+        let i = lastSubmittedIndex + 1;
         i < this._messages.length;
         i++
       ) {

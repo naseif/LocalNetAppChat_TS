@@ -51,6 +51,8 @@ let hostingUrl = HostingUrlGenerator.GenerateUrl(
   args.https ?? false
 );
 
+const timer = (ms: number) => new Promise((res) => setTimeout(res, ms));
+
 (async () => {
   try {
     if (args.message) {
@@ -64,8 +66,9 @@ let hostingUrl = HostingUrlGenerator.GenerateUrl(
       );
 
       const req = await fetch(`${hostingUrl}/lnac/v1/send`, {
-        method: "post",
+        method: "POST",
         body: JSON.stringify(userMessage),
+        headers: { "Content-Type": "application/json" },
       });
 
       console.log(req);
@@ -76,10 +79,9 @@ let hostingUrl = HostingUrlGenerator.GenerateUrl(
       while (true) {
         try {
           const req = await fetch(
-            `${hostingUrl}/receive?clientName=${clientName}`
+            `${hostingUrl}/lnac/v1/receive?clientName=${clientName}`
           );
           const messages = (await req.json()) as Message[];
-
           if (messages.length > 0) {
             for (let message of messages) {
               console.log(`${message.name} : ${message.text}`);
@@ -88,6 +90,7 @@ let hostingUrl = HostingUrlGenerator.GenerateUrl(
         } catch (error) {
           console.log(`Reestablishing Connection....`);
         }
+        await timer(2000);
       }
     }
   } catch (error) {
